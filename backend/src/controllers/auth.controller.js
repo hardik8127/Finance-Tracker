@@ -11,7 +11,6 @@ export const registerUser = async (req, res) => {
   const { email, password, name } = req.body;
 
   try {
-    console.log("trycatch");
     if (!email || !password || !name) {
       return res.status(400).json({
         message: " All fields are required",

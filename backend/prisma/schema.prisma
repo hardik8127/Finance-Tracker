@@ -14,6 +14,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum ExpenseList {
+  Food
+  Travel
+  Entertainment
+  Shopping
+  Bills
+  Healthcare
+  Others
+}
+
 model User {
   id                   String    @id @default(uuid())
   name                 String?
@@ -27,4 +37,40 @@ model User {
   resetPasswordToken   String?
   resetPasswordExpires DateTime?
   googleId             String?   @unique
+
+  expense Expense[]
+  budgets Budget[]
+}
+
+model Expense {
+  id          String      @id @default(uuid())
+  userId      String
+  amount      Decimal     @db.Decimal(10, 2) 
+  category    ExpenseList
+  description String?     
+  date        DateTime    @default(now()) 
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt 
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId]) 
+  @@index([date])   
+  @@index([category]) 
+}
+
+model Budget {
+  id        String      @id @default(uuid())
+  userId    String
+  category  ExpenseList
+  amount    Decimal     @db.Decimal(10, 2)
+  month     Int         // 1-12
+  year      Int
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, category, month, year])
+  @@index([userId])
 }
