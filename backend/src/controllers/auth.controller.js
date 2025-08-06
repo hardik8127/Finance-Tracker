@@ -275,3 +275,18 @@ export const resetPassword = async (req, res) => {
     });
   }
 };
+
+export const check = async (req, res) => {
+  try {
+    res.status(200).json({
+      success: true,
+      message: "User Authenticated Successfully",
+      user: req.user,
+    });
+  } catch (error) {
+    console.error("Error Checking User", error);
+    res.status(500).json({
+      message: "Error Checking User",
+    });
+  }
+};

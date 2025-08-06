@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  check,
   forgotPassword,
   loginUser,
   logoutUser,
@@ -16,5 +17,6 @@ authRoutes.post("/login", loginUser);
 authRoutes.post("/logout", logoutUser);
 authRoutes.post("/forgot-password", forgotPassword);
 authRoutes.post("/reset/:resetPasswordToken", resetPassword);
+authRoutes.get("/check", authMiddleware, check);
 
 export default authRoutes;

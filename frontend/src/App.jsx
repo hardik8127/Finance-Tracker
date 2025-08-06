@@ -1,34 +1,47 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
+import LandingPage from "./page/LandingPage";
+import LoginPage from "./page/LoginPage";
+import SignupPage from "./page/SignupPage";
+import HomePage from "./page/HomePage";
+import ProfilePage from "./page/ProfilePage";
+import DashboardPage from "./page/DashboardPage";
+import { Loader } from "lucide-react";
+
+import { useAuthStore } from "./store/useAuthStore";
 
 const App = () => {
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
+
+  if (isCheckingAuth && !authUser) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <Loader className="size-10 animate-spin" />
+      </div>
+    );
+  }
   return (
     <div className="min-h-screen">
       <Routes>
-        <Route
-          path="/"
-          element={<div className="text-7xl p-8">Landing Page</div>}
-        />
+        <Route path="/" element={<LandingPage />} />
         <Route
           path="/login"
-          element={<div className="text-7xl p-8">Login Page</div>}
+          element={!authUser ? <LoginPage /> : <Navigate to={"/home"} />}
         />
         <Route
           path="/register"
-          element={<div className="text-7xl p-8">Register Page</div>}
+          element={!authUser ? <SignupPage /> : <Navigate to={"/home"} />}
         />
         <Route
           path="/home"
-          element={<div className="text-7xl p-8">Homepage</div>}
+          element={authUser ? <HomePage /> : <Navigate to={"/login"} />}
         />
         <Route
           path="/dashboard"
-          element={<div className="text-7xl p-8">Dashboard</div>}
-        />
-
-        <Route
-          path="*"
-          element={<div className="text-7xl p-8">404 - Page Not Found</div>}
+          element={authUser ? <DashboardPage /> : <Navigate to={"/login"} />}
         />
       </Routes>
     </div>
