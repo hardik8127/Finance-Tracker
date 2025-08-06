@@ -15,7 +15,6 @@
     "daisyui": "^5.0.50",
     "js-cookie": "^3.0.5",
     "lucide-react": "^0.536.0",
-    "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-hook-form": "^7.62.0",
     "react-hot-toast": "^2.5.2",
