@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.route.js";
 import expenseRoutes from "./routes/expense.route.js";
+import budgetRoutes from "./routes/budget.route.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/expense", expenseRoutes);
+app.use("/api/v1/budget", budgetRoutes);
 
 app.listen(process.env.PORT, () => {
   console.log("sever is running on 8080");
