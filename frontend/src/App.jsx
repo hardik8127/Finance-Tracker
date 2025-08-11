@@ -12,19 +12,22 @@ import { useAuthStore } from "./store/useAuthStore";
 
 const App = () => {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
+  
   useEffect(() => {
     checkAuth();
+    // Add dark class to body
+    document.body.classList.add('dark');
   }, [checkAuth]);
 
   if (isCheckingAuth && !authUser) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <Loader className="size-10 animate-spin" />
+      <div className="flex items-center justify-center h-screen bg-gray-950">
+        <Loader className="size-10 animate-spin text-blue-400" />
       </div>
     );
   }
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gray-950">
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route
